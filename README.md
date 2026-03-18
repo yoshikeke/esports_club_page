@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 熊本高専 eスポーツ同好会 公式ホームページ
 
-## Getting Started
+eスポーツを通じて地域に貢献し、次世代の日本を盛り上げる人材を育成する熊本高専eスポーツ同好会の公式サイトです。
 
-First, run the development server:
+## スタック
+
+- **Next.js 14** (App Router / ISR)
+- **TypeScript**
+- **Tailwind CSS v3** + **shadcn/ui v4**
+- **Notion API** — 活動報告ブログ・イベント管理
+- **Vercel** — デプロイ
+
+## ページ構成
+
+| パス | 内容 |
+|------|------|
+| `/` | トップ（ミッション・活動概要・最新ブログ） |
+| `/blog` | 活動報告ブログ一覧 (Notion DB / ISR) |
+| `/blog/[slug]` | ブログ記事詳細 |
+| `/events` | イベント告知一覧 (Notion DB / ISR) |
+| `/media` | 活動記録・資料 (Google Drive 埋め込み) |
+| `/contact` | お問い合わせ (Google Forms 埋め込み) |
+
+## ローカル開発
 
 ```bash
+# 依存関係インストール
+npm install
+
+# 環境変数を設定
+cp .env.local.example .env.local
+# → .env.local を編集して各トークンを設定
+
+# 開発サーバー起動
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 環境変数
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`.env.local.example` を参照してください。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| 変数名 | 説明 | 必須 |
+|--------|------|------|
+| `NOTION_TOKEN` | Notion インテグレーション トークン | ○ (Notion連携時) |
+| `NOTION_BLOG_DB_ID` | ブログ Notion データベース ID | ○ (Notion連携時) |
+| `NOTION_EVENTS_DB_ID` | イベント Notion データベース ID | ○ (Notion連携時) |
+| `NEXT_PUBLIC_GOOGLE_FORM_URL` | Google Forms 埋め込み URL | お問い合わせ表示に必要 |
+| `NEXT_PUBLIC_DRIVE_FOLDER_URL` | Google Drive フォルダ埋め込み URL | 資料ページに必要 |
+| `NEXT_PUBLIC_DRIVE_SLIDE_URL` | Google Drive スライドファイル URL | 任意 |
 
-## Learn More
+> 環境変数が未設定の場合はダミーデータで動作します。
 
-To learn more about Next.js, take a look at the following resources:
+## Notion セットアップ
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. [Notion インテグレーション作成](https://www.notion.so/my-integrations) → トークンを取得
+2. ブログDB・イベントDBにインテグレーションを接続
+3. DB のプロパティ設定（[src/lib/notion.ts](src/lib/notion.ts) のコメント参照）
+4. `.env.local` に `NOTION_TOKEN` / `NOTION_BLOG_DB_ID` / `NOTION_EVENTS_DB_ID` を設定
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Vercel デプロイ
 
-## Deploy on Vercel
+```bash
+npx vercel
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Vercel ダッシュボードの **Environment Variables** に `.env.local` の内容を登録してください。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ディレクトリ構成
+
+```
+src/
+├── app/
+│   ├── page.tsx          # トップページ
+│   ├── blog/
+│   │   ├── page.tsx      # ブログ一覧
+│   │   └── [slug]/page.tsx
+│   ├── events/page.tsx   # イベント一覧
+│   ├── media/page.tsx    # 資料・記録
+│   └── contact/page.tsx  # お問い合わせ
+├── components/
+│   ├── layout/Header.tsx
+│   ├── layout/Footer.tsx
+│   ├── ui/               # shadcn/ui コンポーネント
+│   └── DriveEmbed.tsx
+├── lib/
+│   └── notion.ts         # Notion API + ダミーデータ
+└── types/index.ts
+```
+# esports_club_page
