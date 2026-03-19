@@ -1,55 +1,11 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
-import { useState, useEffect } from "react";
-import img1 from "@/app/public/images/121369_0.jpg";
-import img2 from "@/app/public/images/121392_0.jpg";
-import img3 from "@/app/public/images/121418_0.jpg";
-
-const slides = [img1.src, img2.src, img3.src];
-
-const INTERVAL = 7000;
-const FADE = 2000;
 
 export function HeroSection() {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActive((i) => (i + 1) % slides.length);
-    }, INTERVAL);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
     <section className="relative overflow-hidden text-white min-h-[520px] flex items-center">
-      {/* Background slides */}
-      {slides.map((src, i) => (
-        <div
-          key={i}
-          className="absolute inset-0 hero-kenburns"
-          style={{
-            backgroundImage: `url(${src})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            opacity: i === active ? 1 : 0,
-            transition: `opacity ${FADE}ms ease-in-out`,
-          }}
-        />
-      ))}
-
-      {/* Gradient overlay – strong for readability */}
-      <div
-        className="absolute inset-0 z-10"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(9,9,11,0.85) 0%, rgba(9,9,11,0.65) 40%, rgba(9,9,11,0.88) 100%)",
-        }}
-      />
-
       {/* Content */}
       <div className="relative z-20 container mx-auto max-w-3xl text-center px-4 py-24">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm mb-8">
@@ -102,19 +58,6 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Slide indicators */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-        {slides.map((_, i) => (
-          <div
-            key={i}
-            className="h-1 rounded-full transition-all duration-500"
-            style={{
-              width: i === active ? "24px" : "8px",
-              backgroundColor: i === active ? "var(--primary)" : "rgba(255,255,255,0.3)",
-            }}
-          />
-        ))}
-      </div>
     </section>
   );
 }
