@@ -16,15 +16,15 @@ export default async function EventsPage() {
   const past = events.filter((e) => e.status === "past");
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-12">
-      <h1 className="text-3xl font-bold mb-2">イベント告知</h1>
-      <p className="text-muted-foreground mb-8">
+    <div className="container mx-auto max-w-4xl px-4 py-16">
+      <h1 className="text-3xl font-bold mb-2 tracking-tight">イベント告知</h1>
+      <p className="text-muted-foreground mb-10">
         部内大会・体験会・外部大会参加のお知らせです。
       </p>
 
       {upcoming.length > 0 && (
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold mb-4">開催予定</h2>
+        <section className="mb-14">
+          <h2 className="text-xl font-semibold mb-5 tracking-tight">開催予定</h2>
           <div className="flex flex-col gap-4">
             {upcoming.map((event) => (
               <EventCard key={event.id} event={event} />
@@ -35,10 +35,12 @@ export default async function EventsPage() {
 
       {past.length > 0 && (
         <section>
-          <h2 className="text-xl font-semibold mb-4 text-muted-foreground">過去のイベント</h2>
-          <div className="flex flex-col gap-4 opacity-70">
+          <h2 className="text-xl font-semibold mb-5 text-muted-foreground tracking-tight">
+            過去のイベント
+          </h2>
+          <div className="flex flex-col gap-4">
             {past.map((event) => (
-              <EventCard key={event.id} event={event} />
+              <EventCard key={event.id} event={event} dimmed />
             ))}
           </div>
         </section>
@@ -47,7 +49,7 @@ export default async function EventsPage() {
   );
 }
 
-function EventCard({ event }: { event: Event }) {
+function EventCard({ event, dimmed }: { event: Event; dimmed?: boolean }) {
   const statusLabel =
     event.status === "upcoming"
       ? "開催予定"
@@ -63,23 +65,31 @@ function EventCard({ event }: { event: Event }) {
       : "outline";
 
   return (
-    <Card>
+    <Card
+      className={`bg-card/50 border-border/50 transition-all duration-300 ${
+        dimmed
+          ? "opacity-60"
+          : "hover:border-primary/30 hover:bg-card/80"
+      }`}
+    >
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <CardTitle className="text-lg">{event.title}</CardTitle>
-          <Badge variant={statusVariant}>{statusLabel}</Badge>
+          <Badge variant={statusVariant} className="text-xs">
+            {statusLabel}
+          </Badge>
         </div>
       </CardHeader>
-      <CardContent className="text-sm text-muted-foreground space-y-1">
+      <CardContent className="text-sm text-muted-foreground space-y-1.5">
         <div className="flex items-center gap-2">
-          <CalendarDays className="h-4 w-4 shrink-0" />
+          <CalendarDays className="h-4 w-4 shrink-0 text-primary/60" />
           <span>{formatDate(event.date)}</span>
         </div>
         <div className="flex items-center gap-2">
-          <MapPin className="h-4 w-4 shrink-0" />
+          <MapPin className="h-4 w-4 shrink-0 text-primary/60" />
           <span>{event.location}</span>
         </div>
-        <p className="pt-1">{event.description}</p>
+        <p className="pt-1.5 leading-relaxed">{event.description}</p>
       </CardContent>
     </Card>
   );

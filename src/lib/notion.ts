@@ -43,30 +43,35 @@ function isNotionConfigured() {
 export async function getBlogPosts(): Promise<BlogPost[]> {
   if (!isNotionConfigured()) return DUMMY_BLOG_POSTS;
 
-  const { Client } = await import("@notionhq/client");
-  const notion = new Client({ auth: NOTION_TOKEN });
+  try {
+    const { Client } = await import("@notionhq/client");
+    const notion = new Client({ auth: NOTION_TOKEN });
 
-  const db = await notion.databases.query({
-    database_id: BLOG_DB_ID!,
-    filter: { property: "Published", checkbox: { equals: true } },
-    sorts: [{ property: "Date", direction: "descending" }],
-  });
-
-  return db.results
-    .filter((p): p is typeof p & { properties: Record<string, unknown> } =>
-      "properties" in p
-    )
-    .map((page) => {
-      const props = page.properties as Record<string, NotionProperty>;
-      return {
-        id: page.id,
-        title: getTitle(props["Title"]),
-        excerpt: getRichText(props["Excerpt"]),
-        date: getDate(props["Date"]) ?? "",
-        tags: getMultiSelect(props["Tags"]),
-        slug: getRichText(props["Slug"]) || page.id,
-      };
+    const db = await notion.databases.query({
+      database_id: BLOG_DB_ID!,
+      filter: { property: "Published", checkbox: { equals: true } },
+      sorts: [{ property: "Date", direction: "descending" }],
     });
+
+    return db.results
+      .filter((p): p is typeof p & { properties: Record<string, unknown> } =>
+        "properties" in p
+      )
+      .map((page) => {
+        const props = page.properties as Record<string, NotionProperty>;
+        return {
+          id: page.id,
+          title: getTitle(props["Title"]),
+          excerpt: getRichText(props["Excerpt"]),
+          date: getDate(props["Date"]) ?? "",
+          tags: getMultiSelect(props["Tags"]),
+          slug: getRichText(props["Slug"]) || page.id,
+        };
+      });
+  } catch (e) {
+    console.error("Notion getBlogPosts failed, using dummy data:", e);
+    return DUMMY_BLOG_POSTS;
+  }
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
@@ -81,32 +86,37 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 export async function getEvents(): Promise<Event[]> {
   if (!isNotionConfigured()) return DUMMY_EVENTS;
 
-  const { Client } = await import("@notionhq/client");
-  const notion = new Client({ auth: NOTION_TOKEN });
+  try {
+    const { Client } = await import("@notionhq/client");
+    const notion = new Client({ auth: NOTION_TOKEN });
 
-  const db = await notion.databases.query({
-    database_id: EVENTS_DB_ID!,
-    sorts: [{ property: "Date", direction: "descending" }],
-  });
-
-  return db.results
-    .filter((p): p is typeof p & { properties: Record<string, unknown> } =>
-      "properties" in p
-    )
-    .map((page) => {
-      const props = page.properties as Record<string, NotionProperty>;
-      const status = getSelect(props["Status"]);
-      return {
-        id: page.id,
-        title: getTitle(props["Title"]),
-        date: getDate(props["Date"]) ?? "",
-        location: getRichText(props["Location"]),
-        description: getRichText(props["Description"]),
-        status: (["upcoming", "ongoing", "past"].includes(status)
-          ? status
-          : "past") as Event["status"],
-      };
+    const db = await notion.databases.query({
+      database_id: EVENTS_DB_ID!,
+      sorts: [{ property: "Date", direction: "descending" }],
     });
+
+    return db.results
+      .filter((p): p is typeof p & { properties: Record<string, unknown> } =>
+        "properties" in p
+      )
+      .map((page) => {
+        const props = page.properties as Record<string, NotionProperty>;
+        const status = getSelect(props["Status"]);
+        return {
+          id: page.id,
+          title: getTitle(props["Title"]),
+          date: getDate(props["Date"]) ?? "",
+          location: getRichText(props["Location"]),
+          description: getRichText(props["Description"]),
+          status: (["upcoming", "ongoing", "past"].includes(status)
+            ? status
+            : "past") as Event["status"],
+        };
+      });
+  } catch (e) {
+    console.error("Notion getEvents failed, using dummy data:", e);
+    return DUMMY_EVENTS;
+  }
 }
 
 // ---------------------------------------------------------------------------

@@ -28,29 +28,31 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound();
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-12">
+    <div className="container mx-auto max-w-3xl px-4 py-16">
       <Link
         href="/blog"
-        className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "mb-6 -ml-1 flex items-center gap-1")}
+        className={cn(
+          buttonVariants({ variant: "ghost", size: "sm" }),
+          "mb-8 -ml-1 flex items-center gap-1.5 text-muted-foreground hover:text-primary"
+        )}
       >
         <ArrowLeft className="h-4 w-4" /> 一覧へ戻る
       </Link>
 
-      <div className="flex gap-2 flex-wrap mb-3">
+      <div className="flex gap-2 flex-wrap mb-4">
         {post.tags.map((tag) => (
-          <Badge key={tag} variant="secondary">
+          <Badge key={tag} variant="secondary" className="bg-secondary/80">
             {tag}
           </Badge>
         ))}
       </div>
 
-      <h1 className="text-3xl font-bold mb-3">{post.title}</h1>
-      <p className="text-sm text-muted-foreground mb-8">{formatDate(post.date)}</p>
+      <h1 className="text-3xl font-bold mb-3 tracking-tight">{post.title}</h1>
+      <p className="text-sm text-muted-foreground/60 mb-10">{formatDate(post.date)}</p>
 
-      {/* 本文エリア: Notion本連携時はここにリッチテキストを描画 */}
-      <div className="prose prose-zinc dark:prose-invert max-w-none">
+      <div className="prose prose-invert max-w-none prose-p:text-muted-foreground prose-p:leading-relaxed">
         <p>{post.excerpt}</p>
-        <p className="text-muted-foreground text-sm mt-8">
+        <p className="text-muted-foreground/60 text-sm mt-8">
           ※ Notion連携後、ここに本文が表示されます。
         </p>
       </div>
