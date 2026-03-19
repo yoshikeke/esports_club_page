@@ -3,6 +3,7 @@ import { Inter, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { ParticleBackground } from "@/components/ParticleBackground";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="ja" className={`${inter.variable} ${notoSansJP.variable}`}>
       <body className="font-sans antialiased flex min-h-screen flex-col bg-background text-foreground">
+        <ParticleBackground />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

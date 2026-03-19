@@ -41,12 +41,12 @@ export function HeroSection() {
         />
       ))}
 
-      {/* Gradient overlay – deeper for readability */}
+      {/* Gradient overlay – strong for readability */}
       <div
         className="absolute inset-0 z-10"
         style={{
           background:
-            "linear-gradient(180deg, rgba(9,9,11,0.7) 0%, rgba(9,9,11,0.5) 40%, rgba(9,9,11,0.75) 100%)",
+            "linear-gradient(180deg, rgba(9,9,11,0.85) 0%, rgba(9,9,11,0.65) 40%, rgba(9,9,11,0.88) 100%)",
         }}
       />
 
