@@ -81,9 +81,9 @@ export function HeroSection() {
           <Link
             href="/blog"
             className={cn(
-              buttonVariants({ size: "lg" }),
-              "bg-white text-zinc-900 shadow-md",
-              "hover:bg-zinc-100 hover:scale-105 hover:shadow-xl",
+              buttonVariants({ variant: "outline", size: "lg" }),
+              "bg-white/10 border-white text-white backdrop-blur-sm",
+              "hover:bg-white/25 hover:border-white hover:scale-105 hover:shadow-xl",
               "transition-all duration-200"
             )}
           >
