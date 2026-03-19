@@ -80,7 +80,12 @@ export function HeroSection() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/blog"
-            className={cn(buttonVariants({ size: "lg" }), "bg-white text-zinc-900 hover:bg-white/90")}
+            className={cn(
+              buttonVariants({ size: "lg" }),
+              "bg-white text-zinc-900 shadow-md",
+              "hover:bg-zinc-100 hover:scale-105 hover:shadow-xl",
+              "transition-all duration-200"
+            )}
           >
             活動報告を見る
           </Link>
@@ -88,7 +93,9 @@ export function HeroSection() {
             href="/events"
             className={cn(
               buttonVariants({ variant: "outline", size: "lg" }),
-              "border-white/50 text-white hover:bg-white/15 backdrop-blur-sm"
+              "bg-white/10 border-white text-white backdrop-blur-sm",
+              "hover:bg-white/25 hover:border-white hover:scale-105 hover:shadow-xl",
+              "transition-all duration-200"
             )}
           >
             イベント情報

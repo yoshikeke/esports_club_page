@@ -31,7 +31,7 @@ export default async function HomePage() {
         <div className="container mx-auto max-w-4xl">
           <div className="flex items-center gap-3 mb-4">
             <Target className="h-6 w-6 text-primary shrink-0" />
-            <h2 className="text-2xl font-bold">ミッシkkョン</h2>
+            <h2 className="text-2xl font-bold">ミッション</h2>
           </div>
           <p className="text-muted-foreground text-base leading-relaxed">
             eスポーツの活用を通して地域貢献イベントの企画・立案・運営を行うことで、
