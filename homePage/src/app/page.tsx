@@ -100,9 +100,9 @@ export default async function HomePage() {
           <div className="rounded-xl border border-border/50 bg-card/30 overflow-hidden">
             {[
               { label: "名称", value: "熊本高専 eスポーツ同好会" },
-              { label: "代表者", value: "部長 岩元 喜明" },
-              { label: "部員数", value: "10名（2025年1月時点）" },
-              { label: "活動頻度", value: "毎週月曜日 約1時間" },
+              { label: "代表者", value: "部長 宮嵜 朱祐音" },
+              { label: "部員数", value: "5名" },
+              { label: "活動頻度", value: "毎週金曜日 約1時間" },
               { label: "拠点", value: "熊本高専" },
               { label: "活動目標", value: "地域貢献イベントの企画・運営" },
             ].map(({ label, value }, i, arr) => (

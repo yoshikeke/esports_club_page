@@ -28,7 +28,7 @@ export function HeroSection() {
         </p>
 
         <p className="text-white/40 text-sm mb-10">
-          部員10名 ／ 毎週月曜活動
+          部員5名 ／ 毎週金曜活動
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
