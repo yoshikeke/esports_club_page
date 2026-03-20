@@ -59,6 +59,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       )
       .map((page) => {
         const props = page.properties as Record<string, NotionProperty>;
+        const pageId = page.id.replace(/-/g, "");
         return {
           id: page.id,
           title: getTitle(props["Title"]),
@@ -66,17 +67,13 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
           date: getDate(props["Date"]) ?? "",
           tags: getMultiSelect(props["Tags"]),
           slug: getRichText(props["Slug"]) || page.id,
+          notionUrl: `https://notion.so/${pageId}`,
         };
       });
   } catch (e) {
     console.error("Notion getBlogPosts failed, using dummy data:", e);
     return DUMMY_BLOG_POSTS;
   }
-}
-
-export async function getBlogPost(slug: string): Promise<BlogPost | null> {
-  const posts = await getBlogPosts();
-  return posts.find((p) => p.slug === slug) ?? null;
 }
 
 // ---------------------------------------------------------------------------
@@ -159,6 +156,7 @@ const DUMMY_BLOG_POSTS: BlogPost[] = [
       "2025年3月15日に「eスポーツ探求フェス〜業界を知り、キャリアと未来を探る〜」を開催しました。高校生を対象に、企業の方々とのミーティングや業界調査の発表を行いました。",
     date: "2025-03-15",
     tags: ["イベント", "地域貢献", "高校生"],
+    notionUrl: "#",
   },
   {
     id: "2",
@@ -168,6 +166,7 @@ const DUMMY_BLOG_POSTS: BlogPost[] = [
       "高専生と高齢者サロンの方々がペアを組んで対戦する「GOC」を開催。eスポーツで地域の世代間交流を実現しました。",
     date: "2023-11-10",
     tags: ["大会", "地域貢献", "世代間交流"],
+    notionUrl: "#",
   },
   {
     id: "3",
@@ -177,6 +176,7 @@ const DUMMY_BLOG_POSTS: BlogPost[] = [
       "業界研究の一環として、eスポーツ関連企業へのインタビューを実施。業界のビジネスモデルやキャリアパスについて深く学びました。",
     date: "2024-06-20",
     tags: ["業界研究", "インタビュー"],
+    notionUrl: "#",
   },
 ];
 

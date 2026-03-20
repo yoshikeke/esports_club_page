@@ -144,7 +144,7 @@ export default async function HomePage() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
               {recentPosts.map((post) => (
-                <Link key={post.id} href={`/blog/${post.slug}`} className="group">
+                <a key={post.id} href={post.notionUrl} target="_blank" rel="noopener noreferrer" className="group">
                   <Card className="h-full bg-card/50 border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-300">
                     <CardHeader>
                       <div className="flex gap-2 flex-wrap mb-2">
@@ -171,7 +171,7 @@ export default async function HomePage() {
                       </p>
                     </CardContent>
                   </Card>
-                </Link>
+                </a>
               ))}
             </div>
           )}

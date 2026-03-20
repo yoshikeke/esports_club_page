@@ -5,6 +5,7 @@ export type BlogPost = {
   date: string;
   tags: string[];
   slug: string;
+  notionUrl: string;
 };
 
 export type Event = {

@@ -1,8 +1,7 @@
 import { getBlogPosts } from "@/lib/notion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "活動報告ブログ" };
@@ -19,7 +18,7 @@ export default async function BlogPage() {
 
       <div className="flex flex-col gap-4">
         {posts.map((post) => (
-          <Link key={post.id} href={`/blog/${post.slug}`} className="group">
+          <a key={post.id} href={post.notionUrl} target="_blank" rel="noopener noreferrer" className="group">
             <Card className="bg-card/50 border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-300">
               <CardHeader className="pb-2">
                 <div className="flex gap-2 flex-wrap mb-1">
@@ -33,7 +32,7 @@ export default async function BlogPage() {
                   <CardTitle className="text-lg group-hover:text-primary transition-colors">
                     {post.title}
                   </CardTitle>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
+                  <ArrowUpRight className="h-4 w-4 text-muted-foreground/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
                 </div>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
@@ -41,7 +40,7 @@ export default async function BlogPage() {
                 <p className="text-xs text-muted-foreground/60">{formatDate(post.date)}</p>
               </CardContent>
             </Card>
-          </Link>
+          </a>
         ))}
       </div>
     </div>
